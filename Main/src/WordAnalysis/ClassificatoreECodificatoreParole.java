@@ -73,6 +73,10 @@ public class ClassificatoreECodificatoreParole {
                 makeArticleCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
                 break;
 
+            case 3:
+                makeNameCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
+                break;
+
             default:
                 break;
         }
@@ -455,7 +459,7 @@ public class ClassificatoreECodificatoreParole {
      *                      en = english
      *                      (default = english)
      */
-    public static void makeNameCoding(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
+    private static void makeNameCoding(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
 
         printIsPersonal(wordToAnalyze, chosenLanguage);
         boolean isPersonal = KeyboardInputHandler.getIntInputFromKeyboard()==1;
