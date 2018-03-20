@@ -447,6 +447,65 @@ public class ClassificatoreECodificatoreParole {
 
     }
 
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param wordToAnalyze object of the current analysis
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    public static void makeNameCoding(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
+
+        printIsPersonal(wordToAnalyze, chosenLanguage);
+        boolean isPersonal = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isNamePersonal(encodingArray, isPersonal);
+
+        printWhichNameCategory(wordToAnalyze, chosenLanguage);
+        int categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
+
+        while (!( 4 < categoryType && categoryType < 8)) {
+            printInvalidNameCategoryChosen(chosenLanguage);
+            printWhichNameCategory(wordToAnalyze, chosenLanguage);
+            categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
+        }
+
+        printIsMale(wordToAnalyze, chosenLanguage);
+        boolean isMale = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isWordMale(encodingArray, isMale);
+
+        printIsSingular(wordToAnalyze, chosenLanguage);
+        boolean isSingular = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isWordSingular(encodingArray, isSingular);
+
+        printIsNameConcrete(wordToAnalyze, chosenLanguage);
+        boolean isConcrete = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isNameConcrete(encodingArray, isConcrete);
+
+        printIsNameComposed(wordToAnalyze, chosenLanguage);
+        boolean isComposed = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isNameComposed(encodingArray, isComposed);
+
+        printIsNameCollective(wordToAnalyze, chosenLanguage);
+        boolean isCollective = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isNameCollective(encodingArray, isCollective);
+
+        printIsNamePrimitive(wordToAnalyze, chosenLanguage);
+        boolean isPrimitive = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isNamePrimitive(encodingArray, isPrimitive);
+
+        printSelectNameAlteration(wordToAnalyze, chosenLanguage);
+        printNameAlterationsCategories(chosenLanguage);
+        int selectedAlterationCategory = KeyboardInputHandler.getIntInputFromKeyboard();
+
+        while ( selectedAlterationCategory < 0 || selectedAlterationCategory > 4 ) {
+            printInvalidNameCategoryChosen(chosenLanguage);
+            printNameAlterationsCategories(chosenLanguage);
+            selectedAlterationCategory = KeyboardInputHandler.getIntInputFromKeyboard();
+        }
+
+    }
+
     //--------------------------------------------------PRINT METHODS--------------------------------------------------//
 
     /**
@@ -618,20 +677,20 @@ public class ClassificatoreECodificatoreParole {
      *                      en = english
      *                      default = english
      */
-    private static void printIsCommon(String wordToAnalyze, String chosenLanguage) {
+    private static void printIsPersonal(String wordToAnalyze, String chosenLanguage) {
 
         switch (chosenLanguage) {
 
             case "ita":
-                System.out.format("'%s' %s\n", wordToAnalyze, "è comune?");
+                System.out.format("'%s' %s\n", wordToAnalyze, "è un nome proprio?");
                 break;
 
             case "en":
-                System.out.format("'%s' %s\n", wordToAnalyze, "is common?");
+                System.out.format("'%s' %s\n", wordToAnalyze, "is a personal name?");
                 break;
 
             default:
-                System.out.format("'%s' %s\n", wordToAnalyze, "is common?");
+                System.out.format("'%s' %s\n", wordToAnalyze, "is a personal name?");
                 break;
         }
 
@@ -644,7 +703,7 @@ public class ClassificatoreECodificatoreParole {
      *                      en = english
      *                      default = english
      */
-    public static void printWhichNameCategory(String wordToAnalyze, String chosenLanguage) {
+    private static void printWhichNameCategory(String wordToAnalyze, String chosenLanguage) {
 
         printNameCategories(chosenLanguage);
 
@@ -675,15 +734,15 @@ public class ClassificatoreECodificatoreParole {
         switch (chosenLanguage) {
 
             case "ita":
-                System.out.format("%s\n%s\n%s\n", "5 - Persona", "6 - Animale", "7 - Cosa");
+                System.out.format("\n%s\n%s\n%s\n", "5 - Persona", "6 - Animale", "7 - Cosa");
                 break;
 
             case "en":
-                System.out.format("%s\n%s\n%s\n", "5 - Person", "6 - Animal", "7 - Thing");
+                System.out.format("\n%s\n%s\n%s\n", "5 - Person", "6 - Animal", "7 - Thing");
                 break;
 
             default:
-                System.out.format("%s\n%s\n%s\n", "5 - Person", "6 - Animal", "7 - Thing");
+                System.out.format("\n%s\n%s\n%s\n", "5 - Person", "6 - Animal", "7 - Thing");
                 break;
         }
 
@@ -839,6 +898,31 @@ public class ClassificatoreECodificatoreParole {
 
             default:
                 System.out.format("%s '%s': ", "Select the alteration type of the word", wordToAnalyze);
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printInvalidNameCategoryChosen( String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("\n%s\n", "Categoria disponibile, scegliere un'alternativa valida");
+                break;
+
+            case "en":
+                System.out.format("\n%s\n", "Category not available. Choose another category");
+                break;
+
+            default:
+                System.out.format("\n%s\n", "Category not available. Choose another category");
                 break;
         }
 
