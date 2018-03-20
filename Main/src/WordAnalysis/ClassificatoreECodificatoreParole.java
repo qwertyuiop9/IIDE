@@ -47,13 +47,8 @@ public class ClassificatoreECodificatoreParole {
      */
     private static boolean isValidWordCategory(int category_number) {
 
-        if ( category_number>0 && category_number<10) {
-            return true;
-        } else {
-            return false;
-        }
+        return category_number > 0 && category_number < 10;
     }
-
 
     public static void obtainWordGrammaticalAnalysis() {
 
@@ -428,8 +423,6 @@ public class ClassificatoreECodificatoreParole {
 
     //--------------------------------------------------CATEGORY METHODS--------------------------------------------------//
 
-
-
     /**
      * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
      * @param wordToAnalyze object of the current analysis
@@ -618,5 +611,55 @@ public class ClassificatoreECodificatoreParole {
 
     }
 
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsCommon(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("'%s' %s\n", wordToAnalyze, "è comune?");
+                break;
+
+            case "en":
+                System.out.format("'%s' %s\n", wordToAnalyze, "is common?");
+                break;
+
+            default:
+                System.out.format("'%s' %s\n", wordToAnalyze, "is common?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    public static void printWhichNameCategory(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s '%s' %s:\n", "Categoria a cui la parola appartiene",  wordToAnalyze, "appartiene");
+                break;
+
+            case "en":
+                System.out.format("%s '%s' %s:\n", "Category to which the word",  wordToAnalyze, "belongs to");
+                break;
+
+            default:
+                System.out.format("%s '%s' %s:\n", "Category to which the word",  wordToAnalyze, "belongs to");
+                break;
+        }
+    }
 
 }
