@@ -646,20 +646,202 @@ public class ClassificatoreECodificatoreParole {
      */
     public static void printWhichNameCategory(String wordToAnalyze, String chosenLanguage) {
 
+        printNameCategories(chosenLanguage);
+
         switch (chosenLanguage) {
 
             case "ita":
-                System.out.format("%s '%s' %s:\n", "Categoria a cui la parola appartiene",  wordToAnalyze, "appartiene");
+                System.out.format("\n%s '%s' %s:\n\n ", "Categoria a cui la parola appartiene",  wordToAnalyze, "appartiene");
                 break;
 
             case "en":
-                System.out.format("%s '%s' %s:\n", "Category to which the word",  wordToAnalyze, "belongs to");
+                System.out.format("\n%s '%s' %s:\n\n ", "Category to which the word",  wordToAnalyze, "belongs");
                 break;
 
             default:
-                System.out.format("%s '%s' %s:\n", "Category to which the word",  wordToAnalyze, "belongs to");
+                System.out.format("\n%s '%s' %s:\n\n ", "Category to which the word",  wordToAnalyze, "belongs");
                 break;
         }
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printNameCategories(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s\n%s\n%s\n", "5 - Persona", "6 - Animale", "7 - Cosa");
+                break;
+
+            case "en":
+                System.out.format("%s\n%s\n%s\n", "5 - Person", "6 - Animal", "7 - Thing");
+                break;
+
+            default:
+                System.out.format("%s\n%s\n%s\n", "5 - Person", "6 - Animal", "7 - Thing");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsNameConcrete(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("'%s' %s\n", wordToAnalyze, "è concreto?");
+                break;
+
+            case "en":
+                System.out.format("'%s' %s\n", wordToAnalyze, "is concrete?");
+                break;
+
+            default:
+                System.out.format("'%s' %s\n", wordToAnalyze, "is concrete?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsNameComposed(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("'%s' %s\n", wordToAnalyze, "è composto?");
+                break;
+
+            case "en":
+                System.out.format("'%s' %s\n", wordToAnalyze, "is composed?");
+                break;
+
+            default:
+                System.out.format("'%s' %s\n", wordToAnalyze, "is composed?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsNameCollective(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("'%s' %s\n", wordToAnalyze, "è collettivo?");
+                break;
+
+            case "en":
+                System.out.format("'%s' %s\n", wordToAnalyze, "is collective?");
+                break;
+
+            default:
+                System.out.format("'%s' %s\n", wordToAnalyze, "is collective?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsNamePrimitive(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("'%s' %s\n", wordToAnalyze, "è primitivo?");
+                break;
+
+            case "en":
+                System.out.format("'%s' %s\n", wordToAnalyze, "is primitive?");
+                break;
+
+            default:
+                System.out.format("'%s' %s\n", wordToAnalyze, "is primitive?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printNameAlterationsCategories(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s\n%s\n%s\n%s\n%s\n\n", "0 - Nessuna alterazione", "1 - Accrescitivo", "2 - Diminutivo", "3 - Vezzeggiativo", "4 - Dispregiativo");
+                break;
+
+            case "en":
+                System.out.format("%s\n%s\n%s\n%s\n%s\n\n", "0 - No alteration", "1 - Augmentative", "2 - Diminutive", "3 - Term of endearment", "4 - Derogatory");
+                break;
+
+            default:
+                System.out.format("%s\n%s\n%s\n%s\n%s\n\n", "0 - No alteration", "1 - Augmentative", "2 - Diminutive", "3 - Term of endearment", "4 - Derogatory");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printSelectNameAlteration(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s '%s': ", "Selezionare il tupo di alterazione della parola", wordToAnalyze);
+                break;
+
+            case "en":
+                System.out.format("%s '%s': ", "Select the alteration type of the word", wordToAnalyze);
+                break;
+
+            default:
+                System.out.format("%s '%s': ", "Select the alteration type of the word", wordToAnalyze);
+                break;
+        }
+
     }
 
 }
