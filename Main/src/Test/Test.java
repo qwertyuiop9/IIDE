@@ -2,7 +2,9 @@ package Test;
 
 public class Test {
 
-    private static void testMethod() {
+    public static void main(String[] args) {
+
+        
 
     }
 }
