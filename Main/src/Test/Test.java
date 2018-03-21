@@ -6,7 +6,7 @@ public class Test {
 
     public static void main(String[] args) {
 
-        int[] analisi = ClassificatoreECodificatoreParole.obtainWordGrammaticalAnalysis("ita");
+        int[] analisi = ClassificatoreECodificatoreParole.doWordGrammaticalAnalysis("ita");
 
     }
 }

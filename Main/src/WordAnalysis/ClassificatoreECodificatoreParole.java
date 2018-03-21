@@ -7,12 +7,16 @@ public class ClassificatoreECodificatoreParole {
     private static final int maxGrammaticalAnalysisFieldNumber = 10;
 
     /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
      * @return a valid number of word category ( such that 0<n<10 )
      */
-    private static int getWordCategory() {
+    private static int getWordCategory(String chosenLanguage) {
 
         System.out.format("Categorie possibili:\n");
-        printWordCategories();
+        printSelectWordCategory(chosenLanguage);
         System.out.format("\nNumero corrispondente alla categoria: ");
 
         int category_number_inserted;
@@ -57,7 +61,7 @@ public class ClassificatoreECodificatoreParole {
      * @return an array that represent the grammatical analysis of an input word given by the user
      *         (based on the rules contained in the file 'Struttura analisi grammaticale.pdf')
      */
-    public static int[] obtainWordGrammaticalAnalysis(String chosenLanguage) {
+    public static int[] doWordGrammaticalAnalysis(String chosenLanguage) {
 
         printInsertWord(chosenLanguage);
 
@@ -71,7 +75,7 @@ public class ClassificatoreECodificatoreParole {
             encodingArray[i] = 0;
         }
 
-        int wordCategory = getWordCategory();
+        int wordCategory = getWordCategory(chosenLanguage);
         setWordCategory(encodingArray, wordCategory);
 
         switch (wordCategory) {
@@ -499,13 +503,13 @@ public class ClassificatoreECodificatoreParole {
         isNamePersonal(encodingArray, isPersonal);
 
         printWhichNameCategory(wordToAnalyze, chosenLanguage);
-        printSelectWordCategory(chosenLanguage);
+        printSelectNameCategories(chosenLanguage);
         int categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
 
         while (!( 4 < categoryType && categoryType < 8)) {
             printInvalidCategoryChosen(chosenLanguage);
             printWhichNameCategory(wordToAnalyze, chosenLanguage);
-            printSelectWordCategory(chosenLanguage);
+            printSelectNameCategories(chosenLanguage);
             categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
         }
 
@@ -673,6 +677,22 @@ public class ClassificatoreECodificatoreParole {
 
     }
 
+    /**
+     * @param encodingArray the array that contains the values obtained from the grammatical analysis of a word
+     * @return a two-way integer that represents the grammatical analysis of a particular word
+     */
+    public static int obtainValueOfGrammaticalAnalysisEncoding(int[] encodingArray) {
+
+        double result = 0;
+
+        for (int i=0; i<encodingArray.length; i++) {
+            result = result + encodingArray[i] * Math.pow(10, encodingArray.length - 1 - i);
+        }
+
+        return (int)result;
+
+    }
+
     //--------------------------------------------------PRINT METHODS--------------------------------------------------//
 
     /**
@@ -688,21 +708,21 @@ public class ClassificatoreECodificatoreParole {
                 System.out.format("%s", "In base alle domande poste digitare:" +
                         "\n- 1 per rispondere 'Vero';" +
                         "\n- 0 per rispondere 'Falso'" +
-                        "\n- Un numero corrispondente a una delle opzioni proposte.");
+                        "\n- Un numero corrispondente a una delle opzioni proposte.\n\n");
                 break;
 
             case "en":
                 System.out.format("%s" , "Based on the questions asked, type:" +
                         "\n- 1 to answer 'True'" +
                         "\n- 0 to answer 'False'" +
-                        "\n - The corresponding number to one of the proposed options.");
+                        "\n - The corresponding number to one of the proposed options.\n\n");
                 break;
 
             default:
                 System.out.format("%s" , "Based on the questions asked, type:" +
                         "\n- 1 to answer 'True'" +
                         "\n- 0 to answer 'False'" +
-                        "\n - The corresponding number to one of the proposed options.");
+                        "\n - The corresponding number to one of the proposed options\n\n.");
                 break;
 
         }
@@ -872,20 +892,18 @@ public class ClassificatoreECodificatoreParole {
      */
     private static void printWhichNameCategory(String wordToAnalyze, String chosenLanguage) {
 
-        printNameCategories(chosenLanguage);
-
         switch (chosenLanguage) {
 
             case "ita":
-                System.out.format("\n%s '%s' %s:\n\n ", "Categoria a cui la parola appartiene",  wordToAnalyze, "appartiene");
+                System.out.format("\n%s '%s' %s:\n ", "Categoria a cui la parola", wordToAnalyze, "appartiene");
                 break;
 
             case "en":
-                System.out.format("\n%s '%s' %s:\n\n ", "Category to which the word",  wordToAnalyze, "belongs");
+                System.out.format("\n%s '%s' %s:\n ", "Category to which the word",  wordToAnalyze, "belongs");
                 break;
 
             default:
-                System.out.format("\n%s '%s' %s:\n\n ", "Category to which the word",  wordToAnalyze, "belongs");
+                System.out.format("\n%s '%s' %s:\n ", "Category to which the word",  wordToAnalyze, "belongs");
                 break;
         }
     }
@@ -896,7 +914,7 @@ public class ClassificatoreECodificatoreParole {
      *                      en = english
      *                      default = english
      */
-    private static void printNameCategories(String chosenLanguage) {
+    private static void printSelectNameCategories(String chosenLanguage) {
 
         switch (chosenLanguage) {
 
@@ -1056,15 +1074,15 @@ public class ClassificatoreECodificatoreParole {
         switch (chosenLanguage) {
 
             case "ita":
-                System.out.format("%s '%s': ", "Selezionare il tipo di alterazione della parola", wordToAnalyze);
+                System.out.format("%s '%s': \n\n", "Selezionare il tipo di alterazione della parola", wordToAnalyze);
                 break;
 
             case "en":
-                System.out.format("%s '%s': ", "Select the alteration type of the word", wordToAnalyze);
+                System.out.format("%s '%s': \n\n", "Select the alteration type of the word", wordToAnalyze);
                 break;
 
             default:
-                System.out.format("%s '%s': ", "Select the alteration type of the word", wordToAnalyze);
+                System.out.format("%s '%s': \n\n", "Select the alteration type of the word", wordToAnalyze);
                 break;
         }
 
