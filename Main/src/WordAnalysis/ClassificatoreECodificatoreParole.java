@@ -77,6 +77,10 @@ public class ClassificatoreECodificatoreParole {
                 makeNameCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
                 break;
 
+            case 4:
+                makePronounCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
+                break;
+
             default:
                 break;
         }
@@ -469,18 +473,14 @@ public class ClassificatoreECodificatoreParole {
         int categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
 
         while (!( 4 < categoryType && categoryType < 8)) {
-            printInvalidNameCategoryChosen(chosenLanguage);
+            printInvalidCategoryChosen(chosenLanguage);
             printWhichNameCategory(wordToAnalyze, chosenLanguage);
             categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
         }
 
-        printIsMale(wordToAnalyze, chosenLanguage);
-        boolean isMale = KeyboardInputHandler.getIntInputFromKeyboard()==1;
-        isWordMale(encodingArray, isMale);
+        getAndSetWordGender(encodingArray, wordToAnalyze, chosenLanguage);
 
-        printIsSingular(wordToAnalyze, chosenLanguage);
-        boolean isSingular = KeyboardInputHandler.getIntInputFromKeyboard()==1;
-        isWordSingular(encodingArray, isSingular);
+        getAndSetWordPlurality(encodingArray, wordToAnalyze, chosenLanguage);
 
         printIsNameConcrete(wordToAnalyze, chosenLanguage);
         boolean isConcrete = KeyboardInputHandler.getIntInputFromKeyboard()==1;
@@ -503,11 +503,99 @@ public class ClassificatoreECodificatoreParole {
         int selectedAlterationCategory = KeyboardInputHandler.getIntInputFromKeyboard();
 
         while ( selectedAlterationCategory < 0 || selectedAlterationCategory > 4 ) {
-            printInvalidNameCategoryChosen(chosenLanguage);
+            printInvalidCategoryChosen(chosenLanguage);
             printNameAlterationsCategories(chosenLanguage);
             selectedAlterationCategory = KeyboardInputHandler.getIntInputFromKeyboard();
         }
 
+    }
+
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param wordToAnalyze object of the current analysis
+     * @param chosenLanguage: {ita, en}
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    private static void getAndSetWordPlurality(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
+        printIsSingular(wordToAnalyze, chosenLanguage);
+        boolean isSingular = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isWordSingular(encodingArray, isSingular);
+    }
+
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param wordToAnalyze object of the current analysis
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    private static void makePronounCoding(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
+
+        getAndSetWordGender(encodingArray, wordToAnalyze, chosenLanguage);
+
+        getAndSetWordPlurality(encodingArray, wordToAnalyze, chosenLanguage);
+
+        printPronounCategories(chosenLanguage);
+        printSelectCategoryPronoun(chosenLanguage);
+        int pronounCategory = KeyboardInputHandler.getIntInputFromKeyboard();
+
+        while (!( 1 < pronounCategory && pronounCategory < 8)) {
+            printInvalidCategoryChosen(chosenLanguage);
+            printPronounCategories(chosenLanguage);
+            printSelectCategoryPronoun(chosenLanguage);
+            pronounCategory = KeyboardInputHandler.getIntInputFromKeyboard();
+        }
+
+
+
+
+    }
+
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param wordToAnalyze object of the current analysis
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    private static void getAndSetWordGender(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
+        printIsMale(wordToAnalyze, chosenLanguage);
+        boolean isMale = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isWordMale(encodingArray, isMale);
+    }
+
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param wordToAnalyze object of the current analysis
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    private static void makeAdjectiveCoding(int[] encodingArray, String wordToAnalyze, String chosenLanguage) {
+
+        getAndSetWordGender(encodingArray, wordToAnalyze, chosenLanguage);
+
+        getAndSetWordPlurality(encodingArray, wordToAnalyze, chosenLanguage);
+
+        printIsAdjectiveDefinite(wordToAnalyze, chosenLanguage);
+        boolean isAdjectiveDefinite = KeyboardInputHandler.getIntInputFromKeyboard() == 1;
+        isAdjectiveDefinite(encodingArray, isAdjectiveDefinite);
+
+        printPossibleAdjectiveDegrees(chosenLanguage);
+        int adjectiveType = KeyboardInputHandler.getIntInputFromKeyboard();
+        printSelectAdjectiveType(chosenLanguage);
+
+        while (adjectiveType < 0 || adjectiveType > 12) {
+            printInvalidCategoryChosen(chosenLanguage);
+            printPossibleAdjectiveDegrees(chosenLanguage);
+            adjectiveType = KeyboardInputHandler.getIntInputFromKeyboard();
+            printSelectAdjectiveType(chosenLanguage);
+        }
     }
 
     //--------------------------------------------------PRINT METHODS--------------------------------------------------//
@@ -893,7 +981,7 @@ public class ClassificatoreECodificatoreParole {
         switch (chosenLanguage) {
 
             case "ita":
-                System.out.format("%s '%s': ", "Selezionare il tupo di alterazione della parola", wordToAnalyze);
+                System.out.format("%s '%s': ", "Selezionare il tipo di alterazione della parola", wordToAnalyze);
                 break;
 
             case "en":
@@ -913,7 +1001,7 @@ public class ClassificatoreECodificatoreParole {
      *                      en = english
      *                      default = english
      */
-    private static void printInvalidNameCategoryChosen( String chosenLanguage) {
+    private static void printInvalidCategoryChosen(String chosenLanguage) {
 
         switch (chosenLanguage) {
 
@@ -932,4 +1020,143 @@ public class ClassificatoreECodificatoreParole {
 
     }
 
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printPronounCategories(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s\n\n%s\n%s\n%s\n%s\n%s\n%s\n", "Selezionare il tipo di pronome", "2 - Personale",
+                        "3 - Possessivo", "4 - Indefinito", "5 - Relativo", "6 - Dimostrativo", "7 - Numerale");
+                break;
+
+            case "en":
+                System.out.format("%s\n\n%s\n%s\n%s\n%s\n%s\n%s\n", "Select the pronoun type", "2 - Personal",
+                        "3 - Possessive", "4 - Indefinite", "5 - Relative", "6 - Demo", "7 - Numeral");
+                break;
+
+            default:
+                System.out.format("%s\n\n%s\n%s\n%s\n%s\n%s\n%s\n", "Select the pronoun type", "2 - Personal",
+                        "3 - Possessive", "4 - Indefinite", "5 - Relative", "6 - Demo", "7 - Numeral");
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printSelectCategoryPronoun(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s: ", "Categoria del pronome");
+                break;
+
+            case "en":
+                System.out.format("%s: ", "Pronoun category type");
+                break;
+
+            default:
+                System.out.format("%s: ", "Pronoun category type");
+                break;
+        }
+
+    }
+
+    /**
+     * @param wordToAnalyze (object of the question)
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsAdjectiveDefinite(String wordToAnalyze, String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("'%s' %s\n", wordToAnalyze, "è qualificativo?");
+                break;
+
+            case "en":
+                System.out.format("'%s' %s\n", wordToAnalyze, "is definite?");
+                break;
+
+            default:
+                System.out.format("'%s' %s\n", wordToAnalyze, "is definite?");
+                break;
+        }
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printPossibleAdjectiveDegrees(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+                        "0 - Positivo", "1 - Comparativo di maggioranza", "2 - Comparativo di uguaglianza",
+                        "3 - Comparativo di minoranza", "4 - Superlativo relativo", "5 - Superlativo assoluto",
+                        "6 - Possessivo", "7 - Dimostrativo", "8 - Indefinito", "9 - Numerale cardinale",
+                        "10 - Numerale ordinale", "11 - Esclamativo", "12 - Interrogativo");
+                break;
+
+            case "en":
+                System.out.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+                        "0 - Positive", "1 - Comparative majority", "2 - Comparative analysis of equality",
+                        "3 - Comparative minority", "4 - Relative superlative\n", "5 - Absolute superlative\n",
+                        "6 - Possessive", "7 - Demo", "8 - Indefinite", "9 - Numeral cardinal",
+                        "10 - Numeral ordinal", "11 - Exclamation", "12 - Interrogative");
+                break;
+
+            default:
+                System.out.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",
+                        "0 - Positive", "1 - Comparative majority", "2 - Comparative analysis of equality",
+                        "3 - Comparative minority", "4 - Relative superlative\n", "5 - Absolute superlative\n",
+                        "6 - Possessive", "7 - Demo", "8 - Indefinite", "9 - Numeral cardinal",
+                        "10 - Numeral ordinal", "11 - Exclamation", "12 - Interrogative");
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printSelectAdjectiveType(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s \n", "Qual'è il tipo dell'aggettivo?");
+                break;
+
+            case "en":
+                System.out.format("%s \n", "What is the adjective type?");
+                break;
+
+            default:
+                System.out.format("%s \n", "What is the adjective type?");
+                break;
+        }
+
+    }
 }
