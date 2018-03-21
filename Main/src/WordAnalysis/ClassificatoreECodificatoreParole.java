@@ -5,7 +5,6 @@ import File.KeyboardInputHandler;
 public class ClassificatoreECodificatoreParole {
 
     private static final int maxGrammaticalAnalysisFieldNumber = 10;
-    private static final String currentSelectedLanguage = "ita";
 
     /**
      * @return a valid number of word category ( such that 0<n<10 )
@@ -50,15 +49,27 @@ public class ClassificatoreECodificatoreParole {
         return category_number > 0 && category_number < 10;
     }
 
-    public static void obtainWordGrammaticalAnalysis() {
+    /**
+     @param chosenLanguage:
+      *                    ita = italiano
+      *                    en = english
+      *                    default = english
+     * @return an array that represent the grammatical analysis of an input word given by the user
+     *         (based on the rules contained in the file 'Struttura analisi grammaticale.pdf')
+     */
+    public static int[] obtainWordGrammaticalAnalysis(String chosenLanguage) {
 
-        printInsertWord(currentSelectedLanguage);
+        printInsertWord(chosenLanguage);
 
         String wordToAnalyze = KeyboardInputHandler.getStringInputFromKeyboard();
 
-        printInstructionsForAddWordGrammaticalAnalysis(currentSelectedLanguage);
+        printInstructionsForAddWordGrammaticalAnalysis(chosenLanguage);
 
         int[] encodingArray = new int[maxGrammaticalAnalysisFieldNumber];
+
+        for (int i=0; i<encodingArray.length; i++) {
+            encodingArray[i] = 0;
+        }
 
         int wordCategory = getWordCategory();
         setWordCategory(encodingArray, wordCategory);
@@ -66,31 +77,49 @@ public class ClassificatoreECodificatoreParole {
         switch (wordCategory) {
 
             case 1:
-                // Da definire
+                // Verbo
                 break;
 
             case 2:
-                makeArticleCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
+                makeArticleCoding(encodingArray, wordToAnalyze, chosenLanguage);
                 break;
 
             case 3:
-                makeNameCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
+                makeNameCoding(encodingArray, wordToAnalyze, chosenLanguage);
                 break;
 
             case 4:
-                makePronounCoding(encodingArray, wordToAnalyze, currentSelectedLanguage);
+                makePronounCoding(encodingArray, wordToAnalyze, chosenLanguage);
+                break;
+
+            case 5:
+                makeAdjectiveCoding(encodingArray, wordToAnalyze, chosenLanguage);
+                break;
+
+            case 6:
+                makePrepositionCoding(encodingArray, chosenLanguage);
+                break;
+
+            case 7:
+                // Congiunzione
+                break;
+
+            case 8:
+                makeAdverbCoding(encodingArray, chosenLanguage);
+                break;
+
+            case 9:
+                // Esclamazione
                 break;
 
             default:
+                // Caso di default da definire
                 break;
         }
 
-        for (int i=0; i<encodingArray.length; i++) {
-            System.out.format("Posizione %d: %d\n", i, encodingArray[i]);
-        }
+        return encodingArray;
 
     }
-
 
 
     //--------------------------------METHODS THAT MODIFY THE ARRAY's VALUES------------------------------------//
@@ -470,13 +499,17 @@ public class ClassificatoreECodificatoreParole {
         isNamePersonal(encodingArray, isPersonal);
 
         printWhichNameCategory(wordToAnalyze, chosenLanguage);
+        printSelectWordCategory(chosenLanguage);
         int categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
 
         while (!( 4 < categoryType && categoryType < 8)) {
             printInvalidCategoryChosen(chosenLanguage);
             printWhichNameCategory(wordToAnalyze, chosenLanguage);
+            printSelectWordCategory(chosenLanguage);
             categoryType = KeyboardInputHandler.getIntInputFromKeyboard();
         }
+
+        setNameCategory(encodingArray, categoryType);
 
         getAndSetWordGender(encodingArray, wordToAnalyze, chosenLanguage);
 
@@ -507,6 +540,8 @@ public class ClassificatoreECodificatoreParole {
             printNameAlterationsCategories(chosenLanguage);
             selectedAlterationCategory = KeyboardInputHandler.getIntInputFromKeyboard();
         }
+
+        setNameAlteration(encodingArray, selectedAlterationCategory);
 
     }
 
@@ -549,9 +584,7 @@ public class ClassificatoreECodificatoreParole {
             pronounCategory = KeyboardInputHandler.getIntInputFromKeyboard();
         }
 
-
-
-
+        setPronounType(encodingArray, pronounCategory);
     }
 
     /**
@@ -596,6 +629,48 @@ public class ClassificatoreECodificatoreParole {
             adjectiveType = KeyboardInputHandler.getIntInputFromKeyboard();
             printSelectAdjectiveType(chosenLanguage);
         }
+
+        setAdjectiveDegree(encodingArray, adjectiveType);
+    }
+
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    private static void makePrepositionCoding(int[] encodingArray, String chosenLanguage) {
+
+        printIsPrepositionSimple(chosenLanguage);
+        boolean isPrepositionSimple = KeyboardInputHandler.getIntInputFromKeyboard()==1;
+        isPrepositionSimple(encodingArray, isPrepositionSimple);
+
+    }
+
+    /**
+     * @param encodingArray an array (composed of 10 items) that memorizes the grammatical analysis of a word
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      (default = english)
+     */
+    private static void makeAdverbCoding(int[] encodingArray, String chosenLanguage) {
+
+        printSelectAdverbCategory(chosenLanguage);
+        printAdverbCategories(chosenLanguage);
+        int adverbCategorySelected = KeyboardInputHandler.getIntInputFromKeyboard();
+
+        while (adverbCategorySelected < 0 || adverbCategorySelected > 7) {
+
+            printInvalidCategoryChosen(chosenLanguage);
+            printSelectAdverbCategory(chosenLanguage);
+            printAdverbCategories(chosenLanguage);
+            adverbCategorySelected = KeyboardInputHandler.getIntInputFromKeyboard();
+        }
+
+        setAdverbCategory(encodingArray, adverbCategorySelected);
+
     }
 
     //--------------------------------------------------PRINT METHODS--------------------------------------------------//
@@ -1155,6 +1230,84 @@ public class ClassificatoreECodificatoreParole {
 
             default:
                 System.out.format("%s \n", "What is the adjective type?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printIsPrepositionSimple(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s \n", "La preposizione è semplice");
+                break;
+
+            case "en":
+                System.out.format("%s \n", "Is the preposition simple?");
+                break;
+
+            default:
+                System.out.format("%s \n", "Is the preposition simple?");
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printAdverbCategories(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "0 - Modo", "1 - Tempo", "2 - Luogo", "3 - Quantità",
+                        "4 - Dubbio", "5 - Affermazione", "6 - Negazione", "7 - Locuzione avverbiale");
+                break;
+
+            case "en":
+                System.out.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "0 - Mode", "1 - Time", "2 - Place", "3 - Quantity",
+                        "4 - Dubt", "5 - Affirmation", "6 - Denial", "7 - Adverbial place");
+                break;
+
+            default:
+                System.out.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", "0 - Mode", "1 - Time", "2 - Place", "3 - Quantity",
+                        "4 - Dubt", "5 - Affirmation", "6 - Denial", "7 - Adverbial place");
+                break;
+        }
+
+    }
+
+    /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     */
+    private static void printSelectAdverbCategory(String chosenLanguage) {
+
+        switch (chosenLanguage) {
+
+            case "ita":
+                System.out.format("%s\n", "A che tipo di categoria appartiene l'avverbio?");
+                break;
+
+            case "en":
+                System.out.format("%s\n", "What type of category the adverb belongs to");
+                break;
+
+            default:
+                System.out.format("%s\n", "What type of category the adverb belongs to");
                 break;
         }
 
