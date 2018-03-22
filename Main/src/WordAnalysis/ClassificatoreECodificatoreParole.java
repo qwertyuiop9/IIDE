@@ -681,7 +681,7 @@ public class ClassificatoreECodificatoreParole {
      * @param encodingArray the array that contains the values obtained from the grammatical analysis of a word
      * @return a two-way integer that represents the grammatical analysis of a particular word
      */
-    public static int obtainValueOfGrammaticalAnalysisEncoding(int[] encodingArray) {
+    public static long obtainValueOfGrammaticalAnalysisEncoding(int[] encodingArray) {
 
         double result = 0;
 
@@ -689,7 +689,7 @@ public class ClassificatoreECodificatoreParole {
             result = result + encodingArray[i] * Math.pow(10, encodingArray.length - 1 - i);
         }
 
-        return (int)result;
+        return (long) result;
 
     }
 
