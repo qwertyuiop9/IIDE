@@ -45,6 +45,26 @@ public class ClassificatoreECodificatoreParole {
     }
 
     /**
+     * @param chosenLanguage:
+     *                      ita = italian
+     *                      en = english
+     *                      default = english
+     * @return a string, that isn't nor null or empty ("")
+     */
+    public static String getWordToAnalyze(String chosenLanguage) {
+
+        String wordToAnalyze = null;
+
+        while (wordToAnalyze == null || wordToAnalyze.equals("")) {
+
+            printInsertWord(chosenLanguage);
+            wordToAnalyze = KeyboardInputHandler.getStringInputFromKeyboard();
+        }
+
+        return wordToAnalyze;
+    }
+
+    /**
      * @param category_number of the word considered (such that 0<category_number<10)
      * @return true if the category_number is a valid word category, false otherwise
      */
@@ -61,11 +81,7 @@ public class ClassificatoreECodificatoreParole {
      * @return an array that represent the grammatical analysis of an input word given by the user
      *         (based on the rules contained in the file 'Struttura analisi grammaticale.pdf')
      */
-    public static int[] doWordGrammaticalAnalysis(String chosenLanguage) {
-
-        printInsertWord(chosenLanguage);
-
-        String wordToAnalyze = KeyboardInputHandler.getStringInputFromKeyboard();
+    public static int[] doWordGrammaticalAnalysis(String wordToAnalyze, String chosenLanguage) {
 
         printInstructionsForAddWordGrammaticalAnalysis(chosenLanguage);
 
