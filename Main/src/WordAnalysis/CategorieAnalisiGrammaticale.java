@@ -14,11 +14,18 @@ public enum CategorieAnalisiGrammaticale {
 
     private int word_category;
 
+    /**
+     * @return the number (int in range [ 1 - 9] corresponding to the chosen category
+     */
     public int getWordCategory() {
 
         return word_category;
     }
 
+    /**
+     * Constructor of the class
+     * @param i = number corresponding to one of the possible categories in range [ 1-9 ]
+     */
     CategorieAnalisiGrammaticale(int i) {
 
         this.word_category = i;
