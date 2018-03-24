@@ -19,7 +19,7 @@ public enum CategorieAnalisiGrammaticale {
      */
     public int getWordCategory() {
 
-        return word_category;
+        return this.word_category;
     }
 
     /**
